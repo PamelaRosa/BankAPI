@@ -12,8 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Models\" />
-    <Folder Include="Core\Dtos\" />
     <Folder Include="Core\Services\" />
   </ItemGroup>
 
