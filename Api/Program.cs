@@ -13,7 +13,7 @@ var app = builder.Build();
 app.MapPost("/reset", (IAccountService service) =>
 {
     service.Reset();
-    return Results.Ok("Ok");
+    return Results.Text("OK");
 });
 
 app.MapGet("/balance", (IAccountService service, [FromQuery] string? account_id) =>
@@ -66,6 +66,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.Run();
