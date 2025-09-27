@@ -10,14 +10,12 @@ builder.Services.AddSingleton<IAccountService, AccountService>();
 
 var app = builder.Build();
 
-// Reset state before starting tests
 app.MapPost("/reset", (IAccountService service) =>
 {
     service.Reset();
     return Results.Ok("Ok");
 });
 
-// Get balance for non-existing and existing account
 app.MapGet("/balance", (IAccountService service, [FromQuery] string? account_id) =>
 {
     if (string.IsNullOrEmpty(account_id))
@@ -48,9 +46,17 @@ app.MapPost("/event", (EventDto eventDto, IAccountService service) =>
                 return Results.BadRequest(new { error = "Tipo inválido." });
         }
     }
-    catch (Exception ex)
+    catch(InvalidOperationException ex)
+    {
+        return Results.UnprocessableEntity(new { error = ex.Message });
+    }
+    catch(ArgumentException ex)
     {
         return Results.BadRequest(new { error = ex.Message });
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message);
     }
 });
 
